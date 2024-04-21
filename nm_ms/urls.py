@@ -37,5 +37,6 @@ urlpatterns = [
     path('prettynum/delete/<int:id>', prettynum.prettynum_delete),
 
     path('admin/list/', admin.admin_list),
+    path('admin/add/', admin.admin_add),
 
 ]

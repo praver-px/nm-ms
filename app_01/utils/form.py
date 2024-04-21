@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 
 from app_01 import models
 from app_01.utils.bootstrap import BootstrapForm
+from app_01.utils.encrypt import md5
 
 
 class UserModelForm(forms.ModelForm):
@@ -108,3 +109,28 @@ class PrettynumEditModelForm(forms.ModelForm):
             raise ValidationError('手机号已存在')
         else:
             return txt_mobile
+
+
+class AdminModelForm(BootstrapForm):
+    confirm_password = forms.CharField(
+        label='确认密码',
+        widget=forms.PasswordInput(render_value=True),
+    )
+
+    class Meta:
+        model = models.Admin
+        fields = ['username', 'password', 'confirm_password']
+        widgets = {
+            'password': forms.PasswordInput(render_value=True),
+        }
+
+    def clean_password(self):
+        pwd = self.cleaned_data['password']
+        return md5(pwd)
+
+    def clean_confirm_password(self):
+        confirm = self.cleaned_data['confirm_password']
+        pwd = self.cleaned_data['password']
+        if md5(confirm) != pwd:
+            raise ValidationError('密码不一致')
+        return confirm

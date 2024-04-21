@@ -4,10 +4,25 @@
     <div>
         <div class="container">
             <div style="margin-bottom: 10px">
-                <a class="btn btn-primary" href="/admin/create/" target="_blank">
+                <a class="btn btn-primary" href="/admin/add/" target="_blank">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     新建管理员
                 </a>
+
+                <div style="float: right; width:300px;">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search_name" placeholder="请输入用户名..."
+                                   value="{{ search_name }}">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </form>
+
+                </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
