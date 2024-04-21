@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        添加用户
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>用户名称</label>
+                            <input type="text" class="form-control" placeholder="用户名称" name="name"/>
+                        </div>
+
+                         <div class="form-group">
+                            <label>用户密码</label>
+                            <input type="text" class="form-control" placeholder="用户密码" name="password"/>
+                        </div>
+
+                         <div class="form-group">
+                            <label>用户年龄</label>
+                            <input type="text" class="form-control" placeholder="用户年龄" name="age"/>
+                        </div>
+                        <div class="form-group">
+                            <label>用户性别</label>
+                            <select name="gender" class="form-control">
+                                {% for item in gender_choices %}
+                                <option value="{{ item.0 }}">{{ item.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>用户余额</label>
+                            <input type="text" class="form-control" placeholder="用户余额" name="account"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>创建时间</label>
+                            <input type="text" class="form-control" placeholder="创建时间" name="create_time"/>
+                        </div>
+
+                         <div class="form-group">
+                            <label>所属部门</label>
+                             <select name="depart_id" class="form-control">
+                                 {% for item in depart_list %}
+                                <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

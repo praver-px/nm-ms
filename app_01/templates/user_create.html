@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
+{% block content %}
+
+
+    <div>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        添加用户
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                                <span class="text-danger">{{ field.errors.as_text }}</span>
+                            </div>
+                        {% endfor %}
+
+
+                        {#                        {{ form.name.label }}:{{ form.name }}#}
+                        {#                        {{ form.password.label }}:{{ form.password }}#}
+                        {#                        {{ form.age.label }}:{{ form.age }}#}
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('#id_create_time').datepicker({
+                format: "yyyy-mm-dd",
+                language: "zh-CN",
+                startDate: '0',
+                autoClose: true,
+
+            });
+        });
+    </script>
+{% endblock %}
