@@ -38,5 +38,6 @@ urlpatterns = [
 
     path('admin/list/', admin.admin_list),
     path('admin/add/', admin.admin_add),
+    path('admin/edit/<int:id>', admin.admin_edit),
 
 ]
