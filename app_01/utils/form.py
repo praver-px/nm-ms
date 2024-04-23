@@ -140,3 +140,33 @@ class AdminEditModelForm(BootstrapForm):
     class Meta:
         model = models.Admin
         fields = ['username']
+
+
+class AdminResetModelForm(BootstrapForm):
+    confirm_password = forms.CharField(
+        label='确认密码',
+        widget=forms.PasswordInput(render_value=True),
+    )
+
+    class Meta:
+        model = models.Admin
+        fields = ['password', 'confirm_password']
+        widgets = {
+            'password': forms.PasswordInput(render_value=True),
+        }
+
+    def clean_password(self):
+        pwd = self.cleaned_data['password']
+        md5_pwd = md5(pwd)
+        # 判断是否与历史密码相同
+        if models.Admin.objects.filter(id=self.instance.pk, pwd=md5_pwd).exists():
+            raise ValidationError('密码不能与历史密码相同')
+
+        return md5_pwd
+
+    def clean_confirm_password(self):
+        confirm = self.cleaned_data['confirm_password']
+        pwd = self.cleaned_data['password']
+        if md5(confirm) != pwd:
+            raise ValidationError('密码不一致')
+        return confirm

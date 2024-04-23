@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 from app_01 import models
 from app_01.utils.pagination import Pagination
-from app_01.utils.form import AdminModelForm, AdminEditModelForm
+from app_01.utils.form import AdminModelForm, AdminEditModelForm, AdminResetModelForm
 
 
 def admin_list(request):
@@ -53,6 +53,27 @@ def admin_edit(request, id):
         return render(request, 'change.html', {'form': form, "title": title})
 
     form = AdminEditModelForm(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/list/')
+
+
+def admin_delete(request, id):
+    """ 删除管理员"""
+    models.Admin.objects.filter(id=id).delete()
+    return redirect('/admin/list/')
+
+
+def admin_reset(request, id):
+    row_object = models.Admin.objects.filter(id=id).first()
+    if not row_object:
+        return redirect('/admin/list/')
+    title = '重置密码 - {}'.format(row_object.username.username)
+    if request.method == "GET":
+        form = AdminEditModelForm()
+        return render(request, 'change.html', {'form': form, "title": title})
+
+    form = AdminResetModelForm(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
         return redirect('/admin/list/')
