@@ -170,3 +170,22 @@ class AdminResetModelForm(BootstrapForm):
         if md5(confirm) != pwd:
             raise ValidationError('密码不一致')
         return confirm
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(
+        label='用户名',
+        widget=forms.TextInput,
+        required=True,
+        error_messages={'required': '用户名不能为空'}
+    )
+    password = forms.CharField(
+        label='密码',
+        widget=forms.PasswordInput(render_value=True),
+        required=True,
+        error_messages={'required': '密码不能为空'}
+    )
+
+    def clean_password(self):
+        pwd = self.cleaned_data['password']
+        return md5(pwd)
