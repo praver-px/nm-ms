@@ -6,8 +6,7 @@ from app_01.utils.form import LoginForm
 
 def login(request):
     if request == 'GET':
-        content = {'form': LoginForm()}
-        return render(request, 'login.html', content)
+        return render(request, 'login.html', {'form': LoginForm()})
     form = LoginForm(data=request.POST)
     if form.is_valid():
         admin_obj = models.Admin.objects.filter(**form.cleaned_data).first()

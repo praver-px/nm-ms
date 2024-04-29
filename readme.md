@@ -309,3 +309,40 @@ class BootstrapForm(forms.ModelForm):
                 }
 
 ```
+
+## 中间件
+
+```python
+from django.utils.deprecation import MiddlewareMixin
+
+
+class M1(MiddlewareMixin):
+  """ 中间件"""
+
+  def process_request(self, request):
+    # 如果没有返回值（返回None），则继续执行下一个中间件
+    # 如果有返回值 HttpResponse render redirect  则不再继续执行
+    print(request + 'process_request,来了')
+
+  def process_response(self, request, response):
+    print(request + 'process_response,走了')
+    return response
+
+```
+
+在`setting`中的`MIDDLEWARE`中添加中间件 的类
+
+```python
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'app_01.middleware.auth.M1'
+]
+```

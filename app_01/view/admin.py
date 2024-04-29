@@ -7,8 +7,12 @@ from app_01.utils.form import AdminModelForm, AdminEditModelForm, AdminResetMode
 
 def admin_list(request):
     """ 管理员列表"""
-    data_dict = {}
 
+    info = request.session.get("info")
+    if not info:
+        return redirect('/login/')
+
+    data_dict = {}
     search_data = request.GET.get('search_name', '')
     if search_data:
         data_dict['username__contains'] = search_data
